@@ -1,0 +1,94 @@
+
+---
+apiVersion: apiextensions.k8s.io/v1beta1
+kind: CustomResourceDefinition
+metadata:
+  creationTimestamp: null
+  name: networkingresses.networkingress.little-angry-clouds.k8s.io
+spec:
+  additionalPrinterColumns:
+  - JSONPath: .spec.rules[].name
+    name: Service
+    type: string
+  - JSONPath: .spec.rules[].port
+    name: Port
+    type: integer
+  - JSONPath: .spec.rules[].targetPort
+    name: TargetPort
+    type: integer
+  group: networkingress.little-angry-clouds.k8s.io
+  names:
+    kind: NetworkIngress
+    listKind: NetworkIngressList
+    plural: networkingresses
+    shortNames:
+    - ningress
+    - ning
+    singular: networkingress
+  scope: Namespaced
+  subresources: {}
+  validation:
+    openAPIV3Schema:
+      description: NetworkIngress is the Schema for the networkingresses API
+      properties:
+        apiVersion:
+          description: 'APIVersion defines the versioned schema of this representation
+            of an object. Servers should convert recognized schemas to the latest
+            internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources'
+          type: string
+        kind:
+          description: 'Kind is a string value representing the REST resource this
+            object represents. Servers may infer this from the endpoint the client
+            submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds'
+          type: string
+        metadata:
+          type: object
+        spec:
+          properties:
+            rules:
+              description: A list of hosts and its associated ports used to configure
+                the Network Ingress.
+              items:
+                description: A rule is the core of a Network Ingress . It defines
+                  name, host, port and target port of a rule
+                properties:
+                  host:
+                    description: Host of the rule. This is the destination machine
+                      that Haproxy will conecct to.
+                    type: string
+                  name:
+                    description: Name of the rule. This will be used as ID
+                    type: string
+                  port:
+                    description: Port of the rule. This is the port that will be configured
+                      in the service.
+                    type: integer
+                  targetPort:
+                    description: Target port of the rule. This is the port that will
+                      be configured in the Haproxy' s configuration
+                    type: integer
+                required:
+                - host
+                - name
+                - port
+                - targetPort
+                type: object
+              type: array
+          required:
+          - rules
+          type: object
+        status:
+          description: Defines the observed state of NetworkIngress
+          type: object
+      type: object
+  version: v1
+  versions:
+  - name: v1
+    served: true
+    storage: true
+status:
+  acceptedNames:
+    kind: ""
+    plural: ""
+  conditions: []
+  storedVersions: []

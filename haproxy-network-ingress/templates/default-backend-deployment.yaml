@@ -1,0 +1,90 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "haproxy-network-ingress.defaultBackend.fullname" . }}
+  labels:
+    app: {{ include "haproxy-network-ingress.defaultBackend.fullname" . }}
+    chart: {{ include "haproxy-network-ingress.chart" . }}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
+spec:
+  replicas: {{ .Values.defaultBackend.replicaCount }}
+  selector:
+    matchLabels:
+      app: {{ include "haproxy-network-ingress.defaultBackend.fullname" . }}
+      release: {{ .Release.Name }}
+  template:
+    metadata:
+      labels:
+        app: {{ include "haproxy-network-ingress.defaultBackend.fullname" . }}
+        release: {{ .Release.Name }}
+    spec:
+      containers:
+        - name: haproxy
+          image: "{{ .Values.defaultBackend.image.repository }}:{{ .Values.defaultBackend.image.tag }}"
+          imagePullPolicy: {{ .Values.defaultBackend.image.pullPolicy }}
+          command:
+            - /bin/sh
+          args:
+            - -c
+            - "while true ; do kill -s HUP 1; echo -e \"HTTP/1.1 200 OK\n\n\" | nc -l -p 5555 ; done & haproxy -f /usr/local/etc/haproxy/haproxy.cfg"
+          ports:
+            - name: healthz
+              containerPort: 80
+              protocol: TCP
+          livenessProbe:
+            httpGet:
+              path: /healthz
+              port: healthz
+          readinessProbe:
+            httpGet:
+              path: /healthz
+              port: healthz
+          volumeMounts:
+          - name: {{ include "haproxy-network-ingress.defaultBackend.fullname" . }}-configuration
+            mountPath: /usr/local/etc/haproxy/
+            readOnly: true
+        - image: quay.io/coreos/configmap-reload:v0.0.1
+          args:
+          - -webhook-url=http://localhost:5555/reload
+          - -volume-dir=/haproxy/
+          - -webhook-method=GET
+          name: config-reloader
+          resources:
+            limits:
+              cpu: 5m
+              memory: 10Mi
+            requests:
+              cpu: 5m
+              memory: 10Mi
+          volumeMounts:
+          - name: {{ include "haproxy-network-ingress.defaultBackend.fullname" . }}-configuration
+            mountPath: /haproxy/
+            readOnly: true
+      volumes:
+      - configMap:
+          defaultMode: 420
+          name: {{ include "haproxy-network-ingress.defaultBackend.fullname" . }}-configuration
+        name: {{ include "haproxy-network-ingress.defaultBackend.fullname" . }}-configuration
+{{- if .Values.defaultBackend.resources }}
+      resources:
+{{ toYaml .Values.defaultBackend.resources | indent 12 }}
+{{ end -}}
+{{- if .Values.defaultBackend.nodeSelector }}
+    {{- with .Values.defaultBackend.nodeSelector }}
+      nodeSelector:
+{{ toYaml . | indent 8 }}
+    {{- end }}
+{{ end -}}
+{{- if .Values.defaultBackend.affinity }}
+    {{- with .Values.defaultBackend.affinity }}
+      affinity:
+{{ toYaml . | indent 8 }}
+    {{- end }}
+{{ end -}}
+{{- if .Values.defaultBackend.tolerations }}
+    {{- with .Values.defaultBackend.tolerations }}
+      tolerations:
+{{ toYaml . | indent 8 }}
+    {{- end }}
+{{ end -}}

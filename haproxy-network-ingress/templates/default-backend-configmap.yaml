@@ -1,0 +1,23 @@
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "haproxy-network-ingress.defaultBackend.fullname" . }}-configuration
+  labels:
+    app: {{ include "haproxy-network-ingress.defaultBackend.fullname" . }}
+    chart: {{ include "haproxy-network-ingress.chart" . }}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
+data:
+  haproxy.cfg: |-
+    defaults
+      # never fail on address resolution
+      default-server init-addr none
+    # healthz
+    frontend healthz
+      mode http
+      monitor-uri /healthz
+      bind *:80
+      timeout connect 5000ms
+      timeout client 50000ms
+      timeout server 50000ms

@@ -1,0 +1,55 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "haproxy-network-ingress.controller.fullname" . }}
+  labels:
+    app: {{ include "haproxy-network-ingress.controller.fullname" . }}
+    chart: {{ include "haproxy-network-ingress.chart" . }}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
+spec:
+  replicas: {{ .Values.controller.replicaCount }}
+  selector:
+    matchLabels:
+      app: {{ include "haproxy-network-ingress.controller.fullname" . }}
+      release: {{ .Release.Name }}
+  template:
+    metadata:
+      labels:
+        app: {{ include "haproxy-network-ingress.controller.fullname" . }}
+        release: {{ .Release.Name }}
+    spec:
+      serviceAccountName: {{ include "haproxy-network-ingress.controller.fullname" . }}
+      automountServiceAccountToken: true
+      containers:
+        - name: {{ include "haproxy-network-ingress.controller.fullname" . }}
+          image: "{{ .Values.controller.image.repository }}:{{ .Values.controller.image.tag }}"
+          imagePullPolicy: {{ .Values.controller.image.pullPolicy }}
+          command:
+            - /manager
+          args:
+            - --enable-leader-election
+            - --backend-name={{ include "haproxy-network-ingress.defaultBackend.fullname" . }}
+            - --configmap-name={{ include "haproxy-network-ingress.defaultBackend.fullname" . }}-configuration
+{{- if .Values.controller.resources }}
+      resources:
+{{ toYaml .Values.controller.resources | indent 12 }}
+{{ end -}}
+{{- if .Values.controller.nodeSelector }}
+    {{- with .Values.controller.nodeSelector }}
+      nodeSelector:
+{{ toYaml . | indent 8 }}
+    {{- end }}
+{{ end -}}
+{{- if .Values.controller.affinity }}
+    {{- with .Values.controller.affinity }}
+      affinity:
+{{ toYaml . | indent 8 }}
+    {{- end }}
+{{- if .Values.controller.tolerations }}
+{{ end -}}
+    {{- with .Values.controller.tolerations }}
+      tolerations:
+{{ toYaml . | indent 8 }}
+    {{- end }}
+{{ end -}}
