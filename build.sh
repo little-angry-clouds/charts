@@ -7,6 +7,7 @@ function update_minor() {
 
 haproxy_network_ingress="/tmp/hne"
 
+# Idempotent script
 if [[ -d $haproxy_network_ingress ]]
 then
     rm -rf $haproxy_network_ingress
