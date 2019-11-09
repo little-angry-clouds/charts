@@ -23,7 +23,7 @@ changed_directories=$(git diff --diff-filter=AM --name-only HEAD~1 HEAD | xargs 
 for changed_chart in $changed_directories
 do
     check_if_staged_version="$(git status --porcelain $changed_chart/Chart.yaml)"
-    if [[ -z $check_if_staged_version ]]
+    if [[ -n $check_if_staged_version ]]
     then
         version="$(grep "^version:" $changed_chart/Chart.yaml)"
         updated_version="$(update_minor $(echo "$version" | cut -d" " -f2))"
