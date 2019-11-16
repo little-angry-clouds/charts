@@ -15,7 +15,7 @@ fi
 
 git clone https://github.com/little-angry-clouds/haproxy-network-ingress $haproxy_network_ingress
 
-cp $haproxy_network_ingress/config/crd/bases/networkingress.little-angry-clouds.k8s.io_networkingresses.yaml \
+cp $haproxy_network_ingress/config/crd/bases/little-angry-clouds.k8s.io_networkingresses.yaml \
     haproxy-network-ingress/templates/crd.yaml
 
 # Update minor version
