@@ -77,25 +77,3 @@ helm delete exposer
 
 The command removes all the Kubernetes components associated with the chart and
 deletes the release.
-
-These parameters can be passed via Helm's `--set` option
-
-```bash
-helm install stable/nginx-ingress --name my-release \
-    --set controller.metrics.enabled=true
-```
-
-Alternatively, a YAML file that specifies the values for the parameters can be
-provided while installing the chart. For example,
-
-```bash
-helm install stable/nginx-ingress --name my-release -f values.yaml
-```
-
-A useful trick to debug issues with ingress is to increase the logLevel
-as described [here](https://github.com/kubernetes/ingress-nginx/blob/master/docs/troubleshooting.md#debug)
-
-```bash
-helm install stable/nginx-ingress --set controller.extraArgs.v=2
-```
-> **Tip**: You can use the default [values.yaml](values.yaml)
