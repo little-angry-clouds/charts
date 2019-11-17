@@ -33,11 +33,11 @@ We truncate at 63 chars because some Kubernetes name fields are limited to this 
 {{- end -}}
 
 {{/*
-Create a default fully qualified default-backend name.
+Create a default fully qualified backend name.
 We truncate at 63 chars because some Kubernetes name fields are limited to this (by the DNS naming spec).
 */}}
-{{- define "haproxy-network-ingress.defaultBackend.fullname" -}}
-{{- printf "%s-%s" (include "haproxy-network-ingress.fullname" .) .Values.defaultBackend.name | trunc 63 -}}
+{{- define "haproxy-network-ingress.backend.fullname" -}}
+{{- printf "%s-%s" (include "haproxy-network-ingress.fullname" .) .Values.backend.name | trunc 63 -}}
 {{- end -}}
 
 {{/*

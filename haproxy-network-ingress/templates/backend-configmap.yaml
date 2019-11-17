@@ -2,9 +2,9 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: {{ include "haproxy-network-ingress.defaultBackend.fullname" . }}-configuration
+  name: {{ include "haproxy-network-ingress.backend.fullname" . }}-configuration
   labels:
-    app: {{ include "haproxy-network-ingress.defaultBackend.fullname" . }}
+    app: {{ include "haproxy-network-ingress.backend.fullname" . }}
     chart: {{ include "haproxy-network-ingress.chart" . }}
     release: {{ .Release.Name }}
     heritage: {{ .Release.Service }}

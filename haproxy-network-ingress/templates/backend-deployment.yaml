@@ -1,28 +1,28 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ include "haproxy-network-ingress.defaultBackend.fullname" . }}
+  name: {{ include "haproxy-network-ingress.backend.fullname" . }}
   labels:
-    app: {{ include "haproxy-network-ingress.defaultBackend.fullname" . }}
+    app: {{ include "haproxy-network-ingress.backend.fullname" . }}
     chart: {{ include "haproxy-network-ingress.chart" . }}
     release: {{ .Release.Name }}
     heritage: {{ .Release.Service }}
 spec:
-  replicas: {{ .Values.defaultBackend.replicaCount }}
+  replicas: {{ .Values.backend.replicaCount }}
   selector:
     matchLabels:
-      app: {{ include "haproxy-network-ingress.defaultBackend.fullname" . }}
+      app: {{ include "haproxy-network-ingress.backend.fullname" . }}
       release: {{ .Release.Name }}
   template:
     metadata:
       labels:
-        app: {{ include "haproxy-network-ingress.defaultBackend.fullname" . }}
+        app: {{ include "haproxy-network-ingress.backend.fullname" . }}
         release: {{ .Release.Name }}
     spec:
       containers:
         - name: haproxy
-          image: "{{ .Values.defaultBackend.image.repository }}:{{ .Values.defaultBackend.image.tag }}"
-          imagePullPolicy: {{ .Values.defaultBackend.image.pullPolicy }}
+          image: "{{ .Values.backend.image.repository }}:{{ .Values.backend.image.tag }}"
+          imagePullPolicy: {{ .Values.backend.image.pullPolicy }}
           command:
             - /bin/sh
           args:
@@ -41,7 +41,7 @@ spec:
               path: /healthz
               port: healthz
           volumeMounts:
-          - name: {{ include "haproxy-network-ingress.defaultBackend.fullname" . }}-configuration
+          - name: {{ include "haproxy-network-ingress.backend.fullname" . }}-configuration
             mountPath: /usr/local/etc/haproxy/
             readOnly: true
         - image: quay.io/coreos/configmap-reload:v0.0.1
@@ -58,32 +58,32 @@ spec:
               cpu: 5m
               memory: 10Mi
           volumeMounts:
-          - name: {{ include "haproxy-network-ingress.defaultBackend.fullname" . }}-configuration
+          - name: {{ include "haproxy-network-ingress.backend.fullname" . }}-configuration
             mountPath: /haproxy/
             readOnly: true
       volumes:
       - configMap:
           defaultMode: 420
-          name: {{ include "haproxy-network-ingress.defaultBackend.fullname" . }}-configuration
-        name: {{ include "haproxy-network-ingress.defaultBackend.fullname" . }}-configuration
-{{- if .Values.defaultBackend.resources }}
+          name: {{ include "haproxy-network-ingress.backend.fullname" . }}-configuration
+        name: {{ include "haproxy-network-ingress.backend.fullname" . }}-configuration
+{{- if .Values.backend.resources }}
       resources:
-{{ toYaml .Values.defaultBackend.resources | indent 12 }}
+{{ toYaml .Values.backend.resources | indent 12 }}
 {{ end -}}
-{{- if .Values.defaultBackend.nodeSelector }}
-    {{- with .Values.defaultBackend.nodeSelector }}
+{{- if .Values.backend.nodeSelector }}
+    {{- with .Values.backend.nodeSelector }}
       nodeSelector:
 {{ toYaml . | indent 8 }}
     {{- end }}
 {{ end -}}
-{{- if .Values.defaultBackend.affinity }}
-    {{- with .Values.defaultBackend.affinity }}
+{{- if .Values.backend.affinity }}
+    {{- with .Values.backend.affinity }}
       affinity:
 {{ toYaml . | indent 8 }}
     {{- end }}
 {{ end -}}
-{{- if .Values.defaultBackend.tolerations }}
-    {{- with .Values.defaultBackend.tolerations }}
+{{- if .Values.backend.tolerations }}
+    {{- with .Values.backend.tolerations }}
       tolerations:
 {{ toYaml . | indent 8 }}
     {{- end }}

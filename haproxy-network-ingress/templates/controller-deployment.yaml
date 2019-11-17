@@ -29,8 +29,8 @@ spec:
             - /manager
           args:
             - --enable-leader-election
-            - --backend-name={{ include "haproxy-network-ingress.defaultBackend.fullname" . }}
-            - --configmap-name={{ include "haproxy-network-ingress.defaultBackend.fullname" . }}-configuration
+            - --backend-name={{ include "haproxy-network-ingress.backend.fullname" . }}
+            - --configmap-name={{ include "haproxy-network-ingress.backend.fullname" . }}-configuration
 {{- if .Values.controller.resources }}
       resources:
 {{ toYaml .Values.controller.resources | indent 12 }}

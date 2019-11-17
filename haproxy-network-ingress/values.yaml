@@ -6,22 +6,22 @@
 nameOverride: ""
 fullnameOverride: ""
 
-defaultBackend:
-  # defaultBackend.name -- backend's name
-  name: default-backend
+backend:
+  # backend.name -- backend's name
+  name: backend
 
   image:
-    # defaultBackend.image.repository -- backend's docker image
+    # backend.image.repository -- backend's docker image
     repository: haproxy
-    # defaultBackend.image.tag -- backend's docker image tag (Warning: Should be based on alpine because of the config reloader)
+    # backend.image.tag -- backend's docker image tag (Warning: Should be based on alpine because of the config reloader)
     tag: 2.0-alpine
-    # defaultBackend.image.pullPolicy -- backend's image pull policy
+    # backend.image.pullPolicy -- backend's image pull policy
     pullPolicy: IfNotPresent
 
-  # defaultBackend.replicaCount -- backend's desired number of pods
+  # backend.replicaCount -- backend's desired number of pods
   replicaCount: 1
 
-  # defaultBackend.resources -- backend's pod resource requests & limits
+  # backend.resources -- backend's pod resource requests & limits
   resources: {}
     # We usually recommend not to specify default resources and to leave this as a conscious
     # choice for the user. This also increases chances charts run on environments with little
@@ -34,13 +34,13 @@ defaultBackend:
     #  cpu: 100m
     #  memory: 128Mi
 
-  # defaultBackend.nodeSelector -- node labels for pod assignment
+  # backend.nodeSelector -- node labels for pod assignment
   nodeSelector: {}
 
-  # defaultBackend.tolerations -- node taints to tolerate (requires Kubernetes >=1.6)
+  # backend.tolerations -- node taints to tolerate (requires Kubernetes >=1.6)
   tolerations: []
 
-  # defaultBackend.affinity -- node/pod affinities (requires Kubernetes >=1.6)
+  # backend.affinity -- node/pod affinities (requires Kubernetes >=1.6)
   affinity: {}
 
 controller:

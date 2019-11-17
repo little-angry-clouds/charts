@@ -18,7 +18,7 @@ helm upgrade --install exposer little-angry-clouds/haproxy-network-ingress
 This chart bootstraps an haproxy network ingress deployment on a Kubernetes
 cluster using the Helm package manager.
 
-Current chart version is `0.1.3`
+Current chart version is `0.1.4`
 
 Source code can be found [here](https://github.com/little-angry-clouds/charts/tree/master/haproxy-network-ingress)
 
@@ -26,6 +26,15 @@ Source code can be found [here](https://github.com/little-angry-clouds/charts/tr
 
 | Key | Type | Default | Description |
 |-----|------|---------|-------------|
+| backend.affinity | object | `{}` | node/pod affinities (requires Kubernetes >=1.6) |
+| backend.image.pullPolicy | string | `"IfNotPresent"` | backend's image pull policy |
+| backend.image.repository | string | `"haproxy"` | backend's docker image |
+| backend.image.tag | string | `"2.0-alpine"` | backend's docker image tag (Warning: Should be based on alpine because of the config reloader) |
+| backend.name | string | `"backend"` | backend's name |
+| backend.nodeSelector | object | `{}` | node labels for pod assignment |
+| backend.replicaCount | int | `1` | backend's desired number of pods |
+| backend.resources | object | `{}` | backend's pod resource requests & limits |
+| backend.tolerations | list | `[]` | node taints to tolerate (requires Kubernetes >=1.6) |
 | controller.affinity | object | `{}` | node/pod affinities (requires Kubernetes >=1.6) |
 | controller.image.pullPolicy | string | `"IfNotPresent"` | controller's docker image pull policy |
 | controller.image.repository | string | `"littleangryclouds/haproxy-network-ingress"` | controller's docker image |
@@ -35,15 +44,6 @@ Source code can be found [here](https://github.com/little-angry-clouds/charts/tr
 | controller.replicaCount | int | `1` | controller's desired number of pods |
 | controller.resources | object | `{}` | controller pod resource requests & limits |
 | controller.tolerations | list | `[]` | node taints to tolerate (requires Kubernetes >=1.6) |
-| defaultBackend.affinity | object | `{}` | node/pod affinities (requires Kubernetes >=1.6) |
-| defaultBackend.image.pullPolicy | string | `"IfNotPresent"` | backend's image pull policy |
-| defaultBackend.image.repository | string | `"haproxy"` | backend's docker image |
-| defaultBackend.image.tag | string | `"2.0-alpine"` | backend's docker image tag (Warning: Should be based on alpine because of the config reloader) |
-| defaultBackend.name | string | `"default-backend"` | backend's name |
-| defaultBackend.nodeSelector | object | `{}` | node labels for pod assignment |
-| defaultBackend.replicaCount | int | `1` | backend's desired number of pods |
-| defaultBackend.resources | object | `{}` | backend's pod resource requests & limits |
-| defaultBackend.tolerations | list | `[]` | node taints to tolerate (requires Kubernetes >=1.6) |
 | fullnameOverride | string | `""` |  |
 | nameOverride | string | `""` |  |
 | rbac.create | bool | `true` | if true, create & use RBAC resources |
