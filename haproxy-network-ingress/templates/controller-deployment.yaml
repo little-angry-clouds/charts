@@ -26,7 +26,7 @@ spec:
           image: "{{ .Values.controller.image.repository }}:{{ .Values.controller.image.tag }}"
           imagePullPolicy: {{ .Values.controller.image.pullPolicy }}
           command:
-            - /manager
+            - /network-ingress-controller
           args:
             - --enable-leader-election
             - --backend-name={{ include "haproxy-network-ingress.backend.fullname" . }}

@@ -3,7 +3,7 @@ name: haproxy-network-ingress
 description: Haproxy Network Ingress
 appVersion: 0.2.0
 home: https://github.com/little-angry-clouds/charts/tree/master/haproxy-network-ingress
-version: 0.1.4
+version: 0.1.5
 maintainers:
   - email: alexperezpujol@disroot.org
     name: Álex Pérez
