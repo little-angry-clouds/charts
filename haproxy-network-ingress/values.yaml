@@ -51,7 +51,7 @@ controller:
     # controller.image.repository -- controller's docker image
     repository: littleangryclouds/haproxy-network-ingress
     # controller.image.tag -- controller's docker image tag
-    tag: 0.1.5
+    tag: 0.2.0
     # controller.image.pullPolicy -- controller's docker image pull policy
     pullPolicy: IfNotPresent
 

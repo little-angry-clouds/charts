@@ -18,7 +18,7 @@ helm upgrade --install exposer little-angry-clouds/haproxy-network-ingress
 This chart bootstraps an haproxy network ingress deployment on a Kubernetes
 cluster using the Helm package manager.
 
-Current chart version is `0.1.2`
+Current chart version is `0.1.3`
 
 Source code can be found [here](https://github.com/little-angry-clouds/charts/tree/master/haproxy-network-ingress)
 
@@ -29,7 +29,7 @@ Source code can be found [here](https://github.com/little-angry-clouds/charts/tr
 | controller.affinity | object | `{}` | node/pod affinities (requires Kubernetes >=1.6) |
 | controller.image.pullPolicy | string | `"IfNotPresent"` | controller's docker image pull policy |
 | controller.image.repository | string | `"littleangryclouds/haproxy-network-ingress"` | controller's docker image |
-| controller.image.tag | string | `"0.1.5"` | controller's docker image tag |
+| controller.image.tag | string | `"0.2.0"` | controller's docker image tag |
 | controller.name | string | `"controller"` | controller's name |
 | controller.nodeSelector | object | `{}` | node labels for pod assignment |
 | controller.replicaCount | int | `1` | controller's desired number of pods |
@@ -77,3 +77,25 @@ helm delete exposer
 
 The command removes all the Kubernetes components associated with the chart and
 deletes the release.
+
+These parameters can be passed via Helm's `--set` option
+
+```bash
+helm install stable/nginx-ingress --name my-release \
+    --set controller.metrics.enabled=true
+```
+
+Alternatively, a YAML file that specifies the values for the parameters can be
+provided while installing the chart. For example,
+
+```bash
+helm install stable/nginx-ingress --name my-release -f values.yaml
+```
+
+A useful trick to debug issues with ingress is to increase the logLevel
+as described [here](https://github.com/kubernetes/ingress-nginx/blob/master/docs/troubleshooting.md#debug)
+
+```bash
+helm install stable/nginx-ingress --set controller.extraArgs.v=2
+```
+> **Tip**: You can use the default [values.yaml](values.yaml)
