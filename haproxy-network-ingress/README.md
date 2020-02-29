@@ -18,7 +18,7 @@ helm upgrade --install exposer little-angry-clouds/haproxy-network-ingress
 This chart bootstraps an haproxy network ingress deployment on a Kubernetes
 cluster using the Helm package manager.
 
-Current chart version is `0.1.5`
+Current chart version is `0.1.6`
 
 Source code can be found [here](https://github.com/little-angry-clouds/charts/tree/master/haproxy-network-ingress)
 
@@ -38,7 +38,7 @@ Source code can be found [here](https://github.com/little-angry-clouds/charts/tr
 | controller.affinity | object | `{}` | node/pod affinities (requires Kubernetes >=1.6) |
 | controller.image.pullPolicy | string | `"IfNotPresent"` | controller's docker image pull policy |
 | controller.image.repository | string | `"littleangryclouds/haproxy-network-ingress"` | controller's docker image |
-| controller.image.tag | string | `"0.2.0"` | controller's docker image tag |
+| controller.image.tag | string | `"0.2.1"` | controller's docker image tag |
 | controller.name | string | `"controller"` | controller's name |
 | controller.nodeSelector | object | `{}` | node labels for pod assignment |
 | controller.replicaCount | int | `1` | controller's desired number of pods |
