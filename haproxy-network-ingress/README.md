@@ -18,7 +18,7 @@ helm upgrade --install exposer little-angry-clouds/haproxy-network-ingress
 This chart bootstraps an haproxy network ingress deployment on a Kubernetes
 cluster using the Helm package manager.
 
-Current chart version is `0.1.6`
+Current chart version is `0.1.7`
 
 Source code can be found [here](https://github.com/little-angry-clouds/charts/tree/master/haproxy-network-ingress)
 
