@@ -1,0 +1,17 @@
+{{- if .Values.preInstall -}}
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: pre-install-{{ include "alertmanager-actions.name" . }}
+  labels:
+    app.kubernetes.io/name: {{ include "alertmanager-actions.name" . }}
+    app.kubernetes.io/instance: {{ .Release.Name }}
+data:
+  entrypoint.sh: |
+    #!/bin/sh
+{{ .Values.preInstall | indent 4 }}
+    uwsgi --socket /tmp/uwsgi.sock --module wsgi \
+      --master --processes 4 --threads 2 --uid \
+      non-root --gid non-root
+{{- end -}}

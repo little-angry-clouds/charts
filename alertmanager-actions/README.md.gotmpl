@@ -1,0 +1,66 @@
+{{ template "chart.header" . }}
+
+{{ template "chart.description" .}}
+
+## TL;DR;
+
+```bash
+helm repo add little-angry-clouds https://little-angry-clouds.github.io/
+helm upgrade --install alertmanager-actions littleangryclouds/alertmanager-actions
+```
+
+## Introduction
+This chart bootstraps an Alertmanaer Actions deployment on a Kubernetes
+cluster using the Helm package manager. It also adds the option to pre-install packages.
+
+- {{ template "chart.versionLine" . }}
+
+- {{ template "chart.sourceLinkLine" . }}
+
+{{ template "chart.valuesSection" . }}
+
+## Prerequisites
+
+`Kubernetes 1.6+`
+
+## Installing the Chart
+
+To install the chart with the release name `alertmanager-actions`:
+
+```console
+$ helm install --name alertmanager-actions littleangryclouds/alertmanager-actions
+```
+
+## Configuration options
+
+The main objective of Alertmanager Actions is to execute commands. If you need
+to execute them within the pod, you'll need to actually have the tools to
+launch the actions.
+
+There's two differente approaches to solve this problem. You could make your
+own image. Or you could just use the `preInstall` value. This will modify
+the deployments entrypoint so the lines that you define will be executed at
+boot, before the Alertmanager Actions. For example:
+
+```
+config:
+  alertmanager_actions: |
+    - labels:
+        alertname: IpsecStatus
+        action: restart
+      command: curl https://gnu.org -L
+preInstall: |
+  set -euo pipefail
+  apk add -U curl
+```
+
+This will make possible for the action `IpsecStatus` to execute curl, because
+it's installed at boot.
+
+## Uninstalling the Chart
+
+To uninstall/delete the `alertmanager-actions` deployment:
+
+```bash
+$ helm delete alertmanager-actions
+```

@@ -1,0 +1,110 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "alertmanager-actions.fullname" . }}
+  labels:
+{{ include "alertmanager-actions.labels" . | indent 4 }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: {{ include "alertmanager-actions.name" . }}
+      app.kubernetes.io/instance: {{ .Release.Name }}
+  template:
+    metadata:
+      {{ if .Values.preInstall }}
+      annotations:
+        checksum/config: {{ include (print $.Template.BasePath "/entrypoint.yaml") . | sha256sum }}
+      {{ end }}
+      labels:
+        app.kubernetes.io/name: {{ include "alertmanager-actions.name" . }}
+        app.kubernetes.io/instance: {{ .Release.Name }}
+    spec:
+    {{- with .Values.image.pullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+    {{- end }}
+      containers:
+        - name: {{ .Chart.Name }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          env:
+          - name: ALERTMANAGER_ACTIONS_CONFIG
+            value: /opt/code/config.yml
+          ports:
+            - name: http
+              containerPort: 8080
+              protocol: TCP
+          livenessProbe:
+            httpGet:
+              path: /healthcheck
+              port: http
+          readinessProbe:
+            httpGet:
+              path: /healthcheck
+              port: http
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}
+        {{- if .Values.preInstall }}
+          command: ["/entrypoint.sh"]
+        {{- end -}}
+        {{- if or .Values.config .Values.preInstall }}
+          volumeMounts:
+          {{- if .Values.preInstall }}
+          - name: entrypoint
+            mountPath: /entrypoint.sh
+            readOnly: true
+            subPath: entrypoint.sh
+          {{- end -}}
+          {{- if .Values.config }}
+          - name: config
+            mountPath: /opt/code/config.yml
+            readOnly: true
+            subPath: config.yml
+        - image: quay.io/coreos/configmap-reload:v0.0.1
+          args:
+          - -webhook-url=http://localhost:9000/-/reload
+          - -volume-dir=/opt/code/
+          - -webhook-method=GET
+          name: config-reloader
+          resources:
+            limits:
+              cpu: 5m
+              memory: 10Mi
+            requests:
+              cpu: 5m
+              memory: 10Mi
+          volumeMounts:
+          - name: config
+            mountPath: /opt/code/
+            readOnly: true
+          {{- end -}}
+        {{- end -}}
+      {{- if or .Values.config .Values.preInstall }}
+      volumes:
+      {{- if .Values.config }}
+      - name: config
+        configMap:
+          defaultMode: 0644
+          name: {{ include "alertmanager-actions.name" . }}
+      {{- end -}}
+      {{- if .Values.preInstall }}
+      - name: entrypoint
+        configMap:
+          defaultMode: 0777
+          name: pre-install-{{ include "alertmanager-actions.name" . }}
+      {{- end -}}
+      {{- end -}}
+      {{- with .Values.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+    {{- with .Values.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+    {{- end }}
+    {{- with .Values.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+    {{- end }}

@@ -1,0 +1,85 @@
+# Default values for alertmanager-actions.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+nameOverride: ""
+fullnameOverride: ""
+
+# replicaCount -- desired number of pods
+replicaCount: 1
+
+image:
+  # image.repository -- container image repository
+  repository: littleangryclouds/alertmanager-actions
+  # image.repository -- container image tag
+  tag: latest
+  # image.repository -- container image pull policy
+  pullPolicy: Always
+
+  # pullSecrets -- container image pull secrets
+  pullSecrets: []
+
+service:
+  # service.type -- type of service to create
+  type: ClusterIP
+  # service.port -- port for the alertmaager-actions http service
+  port: 80
+
+ingress:
+  # ingress.enabled  -- enables igress
+  enabled: false
+  # ignress.annotations -- ingress annotations
+  annotations: {}
+    # kubernetes.io/ingress.class: nginx
+    # kubernetes.io/tls-acme: "true"
+  # ingress.hosts -- ingress accepted hostnames
+  hosts: []
+    # - host: chart-example.local
+    #   paths: []
+
+  # ingress.tls -- ingress TLS configuration
+  tls: []
+  #  - secretName: chart-example-tls
+  #    hosts:
+  #      - chart-example.local
+
+# resources -- pod resource requests & limits
+resources: {}
+  # We usually recommend not to specify default resources and to leave this as a conscious
+  # choice for the user. This also increases chances charts run on environments with little
+  # resources, such as Minikube. If you do want to specify resources, uncomment the following
+  # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
+  # limits:
+  #   cpu: 100m
+  #   memory: 128Mi
+  # requests:
+  #   cpu: 100m
+  #   memory: 128Mi
+
+# nodeSelector -- node labels for pod assignment
+nodeSelector: {}
+
+# tolerations -- node taints to tolerate (requires Kubernetes >=1.6)
+tolerations: []
+
+# affinity -- node/pod affinities (requires Kubernetes >=1.6)
+affinity: {}
+
+# config -- alertmanager-actions configuration
+config:
+  pyms:
+    # config.pyms.overwrite -- overwrites the default pyms configuration
+    overwrite: no
+    # config.pyms.content -- the configuration that will overwrite the default one
+    content: ""
+  # config.alertmanager_actions -- alertmanager-actions configuration
+  alertmanager_actions: ""
+    # - labels:
+    #     alertname: IpsecStatus
+    #     action: restart
+    #   command: curl https://gnu.org -L
+
+# preInstall -- commands to execute before launching alertmanaer-actions
+preInstall: ""
+  # set -euo pipefail
+  # apk add -U curl
