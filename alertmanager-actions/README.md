@@ -7,7 +7,7 @@ An Alert Manager receiver that executes arbitrary commands when receiving alerts
 
 ```bash
 helm repo add little-angry-clouds https://little-angry-clouds.github.io/
-helm upgrade --install alertmanager-actions littleangryclouds/alertmanager-actions
+helm upgrade --install alertmanager-actions little-angry-clouds/alertmanager-actions
 ```
 
 ## Introduction
@@ -30,7 +30,7 @@ cluster using the Helm package manager. It also adds the option to pre-install p
 | fullnameOverride | string | `""` |  |
 | image.pullPolicy | string | `"Always"` |  |
 | image.pullSecrets | list | `[]` |  |
-| image.repository | string | `"littleangryclouds/alertmanager-actions"` | container image pull policy |
+| image.repository | string | `"little-angry-clouds/alertmanager-actions"` | container image pull policy |
 | image.tag | string | `"latest"` |  |
 | ingress.annotations | object | `{}` |  |
 | ingress.enabled | bool | `false` |  |
@@ -54,7 +54,7 @@ cluster using the Helm package manager. It also adds the option to pre-install p
 To install the chart with the release name `alertmanager-actions`:
 
 ```console
-$ helm install --name alertmanager-actions littleangryclouds/alertmanager-actions
+$ helm install --name alertmanager-actions little-angry-clouds/alertmanager-actions
 ```
 
 ## Configuration options

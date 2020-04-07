@@ -57,7 +57,7 @@ Source code can be found [here](https://github.com/little-angry-clouds/charts/tr
 To install the chart with the release name `exposer`:
 
 ```console
-$ helm install --name exposer littleangryclouds/haproxy-network-ingress
+$ helm install --name exposer little-angry-clouds/haproxy-network-ingress
 ```
 
 The command deploys haproxy-network-ingress on the Kubernetes cluster in the default
