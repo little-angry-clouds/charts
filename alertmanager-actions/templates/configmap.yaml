@@ -21,5 +21,6 @@ data:
         app_name: alertmanager-actions
 {{ end }}
 {{- if .Values.config.alertmanager_actions }}
-{{ .Values.config.alertmanager_actions | indent 4 }}
+    alertmanager_actions:
+{{ .Values.config.alertmanager_actions | indent 6 }}
 {{ end }}
