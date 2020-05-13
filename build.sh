@@ -22,8 +22,9 @@ cp $haproxy_network_ingress/config/crd/bases/little-angry-clouds.k8s.io_networki
 changed_directories=$(git diff --diff-filter=AM --name-only HEAD~1 HEAD | xargs -n1 dirname | grep -v "/")
 for changed_chart in $changed_directories
 do
+    echo git status --porcelain $changed_chart/Chart.yaml
     check_if_staged_version="$(git status --porcelain $changed_chart/Chart.yaml)"
-    if [[ -n $check_if_staged_version ]]
+    if [[ "$check_if_staged_version" -eq "" ]]
     then
         version="$(grep "^version:" $changed_chart/Chart.yaml)"
         updated_version="$(update_minor $(echo "$version" | cut -d" " -f2))"
