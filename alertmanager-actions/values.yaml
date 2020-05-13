@@ -79,7 +79,10 @@ config:
     #     action: restart
     #   command: curl https://gnu.org -L
 
-# preInstall -- commands to execute before launching alertmanaer-actions
+# preInstall -- commands to execute before launching alertmanager-actions
 preInstall: ""
   # set -euo pipefail
   # apk add -U curl
+
+# readinessDelay -- seconds to wait until beginning readiness probes
+readinessDelay: 15
