@@ -86,3 +86,6 @@ preInstall: ""
 
 # readinessDelay -- seconds to wait until beginning readiness probes
 readinessDelay: 15
+
+# livenessDelay -- seconds to wait until beginning liveness probes
+livenessDelay: 15

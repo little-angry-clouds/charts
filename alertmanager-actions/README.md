@@ -36,6 +36,7 @@ cluster using the Helm package manager. It also adds the option to pre-install p
 | ingress.enabled | bool | `false` |  |
 | ingress.hosts | list | `[]` | ingress accepted hostnames |
 | ingress.tls | list | `[]` | ingress TLS configuration |
+| livenessDelay | int | `15` | seconds to wait until beginning liveness probes |
 | nameOverride | string | `""` |  |
 | nodeSelector | object | `{}` | node labels for pod assignment |
 | preInstall | string | `""` | commands to execute before launching alertmanager-actions |
