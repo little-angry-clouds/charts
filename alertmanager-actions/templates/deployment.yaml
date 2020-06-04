@@ -56,7 +56,7 @@ spec:
         {{- if or .Values.preInstall.enabled .Values.secrets.enabled }}
           volumeMounts:
           {{- if .Values.secrets.enabled }}
-          - name: alertmanager-actions
+          - name: {{ include "alertmanager-actions.fullname" . }}
             mountPath: /secrets/
             readOnly: true
           {{ end }}
@@ -91,10 +91,10 @@ spec:
       {{ if .Values.preInstall.enabled }}
       volumes:
       {{- if .Values.secrets.enabled }}
-        - name: alertmanager-actions
+        - name: {{ include "alertmanager-actions.fullname" . }}
           secret:
             defaultMode: 420
-            secretName: alertmanager-actions
+            secretName: {{ include "alertmanager-actions.fullname" . }}
       {{ end }}
         - name: config
           configMap:
