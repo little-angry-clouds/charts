@@ -1,4 +1,4 @@
-{{- if .Values.preInstall -}}
+{{- if .Values.preInstall.value -}}
 ---
 apiVersion: v1
 kind: ConfigMap
@@ -10,7 +10,7 @@ metadata:
 data:
   entrypoint.sh: |
     #!/bin/sh
-{{ .Values.preInstall | indent 4 }}
+{{ .Values.preInstall.value | indent 4 }}
     cd /opt/code/
     uwsgi --socket /tmp/uwsgi.sock --module wsgi \
       --master --processes 4 --threads 2 --uid \
