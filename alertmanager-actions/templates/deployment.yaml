@@ -104,7 +104,7 @@ spec:
         - name: entrypoint
           configMap:
             defaultMode: 0777
-            name: pre-install-{{ include "alertmanager-actions.name" . }}
+            name: {{ include "alertmanager-actions.fullname" . }}-pre-install
       {{- end -}}
       {{- end -}}
       {{- with .Values.nodeSelector }}

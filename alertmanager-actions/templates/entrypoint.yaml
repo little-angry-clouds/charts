@@ -3,7 +3,7 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: pre-install-{{ include "alertmanager-actions.name" . }}
+  name: {{ include "alertmanager-actions.fullname" . }}-pre-install
   labels:
     app.kubernetes.io/name: {{ include "alertmanager-actions.name" . }}
     app.kubernetes.io/instance: {{ .Release.Name }}
