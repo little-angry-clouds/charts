@@ -72,8 +72,8 @@ spec:
             subPath: config.yml
         - image: quay.io/coreos/configmap-reload:v0.0.1
           args:
-          - -webhook-url=http://localhost:9000/-/reload
-          - -volume-dir=/opt/code/
+          - -webhook-url=http://localhost:8080/-/reload
+          - -volume-dir=/opt/config/
           - -webhook-method=GET
           name: config-reloader
           resources:
