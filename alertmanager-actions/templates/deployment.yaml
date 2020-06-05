@@ -30,8 +30,10 @@ spec:
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           env:
+          - name: CONFIGMAP_FILE
+            value: /opt/config/config.yml
           - name: ALERTMANAGER_ACTIONS_CONFIG
-            value: /opt/code/config.yml
+            value: /opt/config/config.yml
           ports:
             - name: http
               containerPort: 8080
@@ -67,9 +69,8 @@ spec:
             subPath: entrypoint.sh
           {{- end }}
           - name: config
-            mountPath: /opt/code/config.yml
+            mountPath: /opt/config/
             readOnly: true
-            subPath: config.yml
         - image: quay.io/coreos/configmap-reload:v0.0.1
           args:
           - -webhook-url=http://localhost:8080/-/reload
@@ -85,7 +86,7 @@ spec:
               memory: 10Mi
           volumeMounts:
           - name: config
-            mountPath: /opt/code/
+            mountPath: /opt/config/
             readOnly: true
         {{ end }}
       {{ if .Values.preInstall.enabled }}
