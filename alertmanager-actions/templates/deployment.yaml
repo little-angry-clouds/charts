@@ -89,24 +89,22 @@ spec:
             mountPath: /opt/config/
             readOnly: true
         {{ end }}
-      {{ if .Values.preInstall.enabled }}
       volumes:
+        - name: config
+          configMap:
+            defaultMode: 0644
+            name: {{ include "alertmanager-actions.name" . }}
       {{- if .Values.secrets.enabled }}
         - name: {{ include "alertmanager-actions.fullname" . }}
           secret:
             defaultMode: 420
             secretName: {{ include "alertmanager-actions.fullname" . }}
       {{ end }}
-        - name: config
-          configMap:
-            defaultMode: 0644
-            name: {{ include "alertmanager-actions.name" . }}
       {{- if .Values.preInstall.enabled }}
         - name: entrypoint
           configMap:
             defaultMode: 0777
             name: {{ include "alertmanager-actions.fullname" . }}-pre-install
-      {{- end -}}
       {{- end -}}
       {{- with .Values.nodeSelector }}
       nodeSelector:
