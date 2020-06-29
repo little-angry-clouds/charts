@@ -12,7 +12,7 @@ image:
   # image.repository -- container image repository
   repository: littleangryclouds/alertmanager-actions
   # image.repository -- container image tag
-  tag: latest
+  tag: 0.1.0
   # image.repository -- container image pull policy
   pullPolicy: Always
 
