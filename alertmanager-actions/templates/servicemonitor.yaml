@@ -1,0 +1,22 @@
+{{if .Values.serviceMonitor.enabled}}
+---
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: {{ include "alertmanager-actions.fullname" . }}
+  labels:
+    app.kubernetes.io/name: {{include "alertmanager-actions.name" .}}
+    app.kubernetes.io/instance: {{.Release.Name}}
+    prometheus: {{.Values.serviceMonitor.prometheus}}
+spec:
+  endpoints:
+  - interval: {{.Values.serviceMonitor.interval }}
+    namespaceSelector:
+      matchNames:
+      - {{.Release.Namespace}}
+    path: /metrics
+    targetPort: http
+  selector:
+    matchLabels:
+      name: {{ include "alertmanager-actions.fullname" . }}
+{{end}}

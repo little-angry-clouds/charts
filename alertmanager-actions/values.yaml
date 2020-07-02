@@ -12,7 +12,7 @@ image:
   # image.repository -- container image repository
   repository: littleangryclouds/alertmanager-actions
   # image.repository -- container image tag
-  tag: 0.1.0
+  tag: 0.2.0
   # image.repository -- container image pull policy
   pullPolicy: Always
 
@@ -102,3 +102,12 @@ secrets:
   # values:
   # - key: example
   #   value: dXNlcjpwYXNzd29yZA==
+
+# serviceMonitor -- prometehus operator configuration
+serviceMonitor:
+  # serviceMonitor.enabled -- value to declare if serviceMonitor is enabled
+  enabled: false
+  # serviceMonitor.prometheus -- prometehus name
+  prometheus: kube-prometheus
+  # serviceMonitor.interval -- interval of time between metrics requests
+  interval: 30s

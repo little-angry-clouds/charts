@@ -14,7 +14,7 @@ helm upgrade --install alertmanager-actions little-angry-clouds/alertmanager-act
 This chart bootstraps an Alertmanaer Actions deployment on a Kubernetes
 cluster using the Helm package manager. It also adds the option to pre-install packages.
 
-- Current chart version is `0.1.10`
+- Current chart version is `0.2.0`
 
 - Source code can be found [here](https://github.com/little-angry-clouds/alertmanager-actions)
 
@@ -31,7 +31,7 @@ cluster using the Helm package manager. It also adds the option to pre-install p
 | image.pullPolicy | string | `"Always"` |  |
 | image.pullSecrets | list | `[]` |  |
 | image.repository | string | `"littleangryclouds/alertmanager-actions"` | container image pull policy |
-| image.tag | string | `"0.1.0"` |  |
+| image.tag | string | `"0.2.0"` |  |
 | ingress.annotations | object | `{}` |  |
 | ingress.enabled | bool | `false` |  |
 | ingress.hosts | list | `[]` | ingress accepted hostnames |
@@ -48,6 +48,10 @@ cluster using the Helm package manager. It also adds the option to pre-install p
 | secrets.enabled | bool | `false` | value to declare if secrets are enabled |
 | service.port | int | `80` | port for the alertmaager-actions http service |
 | service.type | string | `"ClusterIP"` | type of service to create |
+| serviceMonitor | object | `{"enabled":false,"interval":"30s","prometheus":"kube-prometheus"}` | prometehus operator configuration |
+| serviceMonitor.enabled | bool | `false` | value to declare if serviceMonitor is enabled |
+| serviceMonitor.interval | string | `"30s"` | interval of time between metrics requests |
+| serviceMonitor.prometheus | string | `"kube-prometheus"` | prometehus name |
 | tolerations | list | `[]` | node taints to tolerate (requires Kubernetes >=1.6) |
 
 ## Prerequisites
