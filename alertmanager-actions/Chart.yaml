@@ -2,7 +2,7 @@ apiVersion: v1
 appVersion: 0.2.0
 description: An Alert Manager receiver that executes arbitrary commands when receiving alerts.
 name: alertmanager-actions
-version: 0.2.0
+version: 0.2.1
 home: https://github.com/little-angry-clouds/alertmanager-actions
 maintainers:
   - email: alexperezpujol@disroot.org
