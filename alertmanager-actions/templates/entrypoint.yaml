@@ -13,6 +13,5 @@ data:
 {{ .Values.preInstall.value | indent 4 }}
     cd /opt/code/
     uwsgi --socket /tmp/uwsgi.sock --module wsgi \
-      --master --processes 4 --threads 2 --uid \
-      non-root --gid non-root
+      --master --processes 4 --threads 2
 {{- end -}}

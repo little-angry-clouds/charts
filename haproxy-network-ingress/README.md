@@ -1,5 +1,4 @@
-haproxy-network-ingress
-=======================
+# haproxy-network-ingress
 
 ![Haproxy Network Ingress](https://github.com/little-angry-clouds/haproxy-network-ingress) is a Network
 Ingress Controller that uses ConfigMap to store the haproxy configuration.
@@ -20,9 +19,7 @@ cluster using the Helm package manager.
 
 Current chart version is `0.1.7`
 
-Source code can be found [here](https://github.com/little-angry-clouds/charts/tree/master/haproxy-network-ingress)
-
-## Chart Values
+## Values
 
 | Key | Type | Default | Description |
 |-----|------|---------|-------------|

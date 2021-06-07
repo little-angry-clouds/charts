@@ -97,7 +97,7 @@ spec:
       {{- if .Values.secrets.enabled }}
         - name: {{ include "alertmanager-actions.fullname" . }}
           secret:
-            defaultMode: 420
+            defaultMode: 0400
             secretName: {{ include "alertmanager-actions.fullname" . }}
       {{ end }}
       {{- if .Values.preInstall.enabled }}
