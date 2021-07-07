@@ -1,0 +1,57 @@
+---
+driver:
+  name: kind
+  values:
+    kind: Cluster
+    apiVersion: kind.x-k8s.io/v1alpha4
+    nodes:
+      - role: control-plane
+        kubeadmConfigPatches:
+          - |
+            kind: InitConfiguration
+            nodeRegistration:
+              kubeletExtraArgs:
+                node-labels: "ingress-ready=true"
+        extraPortMappings:
+          - containerPort: 80
+            hostPort: 8080
+            protocol: TCP
+provisioner:
+  name: helm
+  values:
+    ingress:
+      enabled: true
+      hosts:
+        - paths:
+            - /
+    config:
+      pyms:
+        overwrite: true
+        content: |
+          pyms:
+            services:
+              metrics: true
+              tracer:
+                enabled: false
+            config:
+              debug: true
+              app_name: alertmanager-actions
+      alertmanager_actions: |
+        - name: ExampleAction
+          labels:
+            alertname: ExampleAction
+            action: show-ls
+          command:
+            - which ls
+    preInstall:
+      enabled: true
+      value: |
+        apt update && apt install -y openssh-client
+lint: |-
+  set -e
+  helm lint
+verifier: |-
+  set -e
+  bats particle/default/test.bats
+dependency:
+  name: helm

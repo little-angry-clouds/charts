@@ -1,0 +1,11 @@
+{
+    "alerts": [
+        {
+            "status": "firing",
+            "labels": {
+                "alertname": "ExampleAction",
+                "action": "show-ls"
+            }
+        }
+    ]
+}
