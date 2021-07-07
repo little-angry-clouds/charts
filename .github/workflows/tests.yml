@@ -1,0 +1,26 @@
+---
+name: Tests
+
+on: push
+
+jobs:
+  particle:
+    runs-on: ubuntu-20.04
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          submodules: recursive
+      - name: Install dependencies
+        run: brew install bats-core kubectl little-angry-clouds/my-brews/particle
+      - name: Run particle for every chart that has a change
+        run: |
+          git fetch
+          changed_directories=$(git diff --diff-filter=AM --name-only remotes/origin/master HEAD | grep -vs ".github" || true)
+          changed_directories=$(echo $changed_directories | xargs -n1 dirname | cut -d"/" -f1| sort -u | grep -sv "^.$")
+
+          for directory in $changed_directories
+          do
+              cd $directory
+              particle test
+          done
