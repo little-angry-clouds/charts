@@ -11,9 +11,6 @@ metadata:
 spec:
   endpoints:
   - interval: {{.Values.serviceMonitor.interval }}
-    namespaceSelector:
-      matchNames:
-      - {{.Release.Namespace}}
     path: /metrics
     targetPort: http
   selector:

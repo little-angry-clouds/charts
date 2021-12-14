@@ -13,7 +13,7 @@ helm upgrade --install alertmanager-actions little-angry-clouds/alertmanager-act
 This chart bootstraps an Alertmanaer Actions deployment on a Kubernetes
 cluster using the Helm package manager. It also adds the option to pre-install packages.
 
-- Current chart version is `0.2.2`
+- Current chart version is `0.2.3`
 
 - Source code can be found [here](https://github.com/little-angry-clouds/alertmanager-actions)
 
