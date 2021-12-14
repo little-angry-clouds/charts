@@ -111,3 +111,11 @@ serviceMonitor:
   prometheus: kube-prometheus
   # serviceMonitor.interval -- interval of time between metrics requests
   interval: 30s
+
+serviceAccount:
+  # serviceAccount.create -- especifica si debería crearse una service account
+  create: true
+  # serviceAccount.create -- anotaciones a añadir al service account
+  annotations: {}
+  # serviceAccount.create -- el nombre del service account a usar. Si no pone, se generará el nombre usando el nomble completo de la plantilla
+  name: ""
