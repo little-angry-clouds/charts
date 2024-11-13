@@ -7,7 +7,9 @@ metadata:
   labels:
     app.kubernetes.io/name: {{include "alertmanager-actions.name" .}}
     app.kubernetes.io/instance: {{.Release.Name}}
-    prometheus: {{.Values.serviceMonitor.prometheus}}
+{{- range $key, $val := .Values.serviceMonitor.labels }}
+    {{ $key }}: {{ $val | quote }}
+{{- end }}
 spec:
   endpoints:
   - interval: {{.Values.serviceMonitor.interval }}

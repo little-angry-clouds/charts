@@ -107,8 +107,9 @@ secrets:
 serviceMonitor:
   # serviceMonitor.enabled -- value to declare if serviceMonitor is enabled
   enabled: false
-  # serviceMonitor.prometheus -- prometehus name
-  prometheus: kube-prometheus
+  # serviceMonitor.labels -- extra labels
+  labels:
+    prometheus: kube-prometheus
   # serviceMonitor.interval -- interval of time between metrics requests
   interval: 30s
 
